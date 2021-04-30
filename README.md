@@ -69,14 +69,14 @@ while True:
 ```
 
 ### Clients Code
-Use library `socket`, `sys`, and `threading`
+Use library `socket`, `sys`, and `threading`.
 ```py
 import socket
 import sys
 import threading
 ```
 
-Function send_message() to send message to the server (as a target function in object Thread)
+Function send_message() to send message to the server (as a target function in object Thread).
 ```py
 def send_message(clientSock):
     # input client's username as identity
@@ -91,7 +91,7 @@ def send_message(clientSock):
         sys.stdout.write("\033[F")
 ```
 
-Declare ip address and port. This program uses ip address '0.0.0.0' and port 2410.
+Declare ip address and port. This program uses ip address `'0.0.0.0'` and port 2410.
 ```py
 UDP_IP_ADDRESS = '0.0.0.0'
 UDP_PORT_NO = 2410
