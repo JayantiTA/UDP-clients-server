@@ -5,11 +5,11 @@ This project was created to fulfill Ichiro's third internship assignment - **Gro
 ## General Explanation
 What is UDP?
 
->> UDP or User Datagram Protocol is connection-less protocol which is suitable for applications that require efficient communication that doesn't have to worry about packet loss. 
+    UDP or User Datagram Protocol is connection-less protocol which is suitable for applications that require efficient communication that doesn't have to worry about packet loss. 
 
 How does UDP work?
 
->> It sends packets (units of data transmission) directly to a target computer, without establishing a connection first, indicating the order of said packets, or checking whether they arrived as intended (UDP packets are referred to as ‘datagrams’).
+    It sends packets (units of data transmission) directly to a target computer, without establishing a connection first, indicating the order of said packets, or checking whether they arrived as intended (UDP packets are referred to as ‘datagrams’).
 
 This program, **Group Chat**, uses UDP for data transfer between clients and server. Some clients (more than 1) can send message to others and receive messgae from others. This program also uses **broadcast** message which is sent from server to all clients. The program also uses **threading**, so it can input message and send message to server simultaneously.
 
