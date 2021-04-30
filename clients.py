@@ -11,7 +11,7 @@ def send_message(clientSock):
     while True:
         message = input()
         message_send = username + ': ' + message
-        clientSock.sendto(message_send.encode("utf-8"), ("", UDP_PORT_NO))
+        clientSock.sendto(message_send.encode("utf-8"), (UDP_IP_ADDRESS, UDP_PORT_NO))
 
         # to delete message input
         sys.stdout.write("\033[F")
