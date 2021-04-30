@@ -33,7 +33,7 @@ clientSock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
 clientSock.bind((UDP_IP_ADDRESS, UDP_PORT_NO))
 
 # print additional message
-print("\nWelcome to WhatsUp Messenger!")
+print("\nWelcome to WhatsUDP Messenger!")
 
 # create object Thread
 clientThread = threading.Thread(target=send_message, args=(clientSock,))

@@ -15,50 +15,56 @@ This program, **Group Chat**, uses UDP for data transfer between clients and ser
 
 ## Documentation
 ### Server Code
-Use library `socket`, `sys`, and `threading`
+Use library `socket`, `sys`, and `threading`. 
 ```py
 import socket
 import sys
 import threading
 ```
 
-Declare ip address and port
+Declare ip address and port. This program uses local host ip address with port 2410.
 ```py
 UDP_IP_ADDRESS = '127.0.0.1'
 UDP_PORT_NO = 2410
 ```
 
-Create a socket
+Create a socket with arguments `socket.AF_INET` (address family) and `socket.SOCK_DGRAM` (represent UDP).
 ```py
 serverSock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 ```
 
-Bind the socket to address
+Bind the socket to address with argument tuple: ip address and port.
 ```py
 serverSock.bind((UDP_IP_ADDRESS, UDP_PORT_NO))
 ```
 
-Allows sockets to bind() to the same IP:port
+Allows sockets to bind() to the same IP:port, with arguments `socket.SOL_SOCKET` as level, `socket.SO_REUSEPORT` as optname, and value = 1.
 ```py
-serverSock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
-serverSock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
+clientSock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
 ```
 
-Print additional message
+Allows broadcast UDP packets to be sent and received, with arguments `socket.SOL_SOCKET` as level, `socket.SO_BROADCAST` as optname, and value = 1.
+```py
+clientSock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
+```
+
+Print additional message.
 ```py
 print("\n!!!Server is ready!!!")
 print("\nYour chats will be recorded here")
 ```
 
-Handle message receiving 
+Handle message receiving.
 ```py
 while True:
     # receive message from clients
     message, address = serverSock.recvfrom(1024)
+    # use decode to convert bytes data type to string data type
     message_send = message.decode("utf-8")
     # print message
     print(message_send)
     # send broadcast message to all clients
+    # use encode to convert string data to bytes data type
     serverSock.sendto(message_send.encode("utf-8"), ('<broadcast>', UDP_PORT_NO))
 ```
 
@@ -70,7 +76,7 @@ import sys
 import threading
 ```
 
-Function send_message() to send message to the server
+Function send_message() to send message to the server (as a target function in object Thread)
 ```py
 def send_message(clientSock):
     # input client's username as identity
@@ -79,52 +85,55 @@ def send_message(clientSock):
     while True:
         message = input()
         message_send = username + ': ' + message
-        clientSock.sendto(message_send.encode("utf-8"), ("", UDP_PORT_NO))
+        # use encode to convert string data to bytes data type
+        clientSock.sendto(message_send.encode("utf-8"), (UDP_IP_ADDRESS, UDP_PORT_NO))
         # to delete message input
         sys.stdout.write("\033[F")
 ```
 
-Declare ip address and port
+Declare ip address and port. This program uses ip address '0.0.0.0' and port 2410.
 ```py
 UDP_IP_ADDRESS = '0.0.0.0'
 UDP_PORT_NO = 2410
 ```
 
-Create socket
+Create a socket with arguments `socket.AF_INET` (address family) and `socket.SOCK_DGRAM` (represent UDP)
 ```py
 clientSock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 ```
 
-Allows sockets to bind() to the same IP:port 
+Allows sockets to bind() to the same IP:port, with arguments `socket.SOL_SOCKET` as level, `socket.SO_REUSEPORT` as optname, and value = 1.
 ```py
 clientSock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
 ```
 
-Allows broadcast UDP packets to be sent and received
+Allows broadcast UDP packets to be sent and received, with arguments `socket.SOL_SOCKET` as level, `socket.SO_BROADCAST` as optname, and value = 1.
 ```py
 clientSock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
 ```
 
-Bind the socket to address
+Bind the socket to address with argument tuple: ip address and port.
 ```py
 clientSock.bind((UDP_IP_ADDRESS, UDP_PORT_NO))
 ```
 
-Print additional message
+Print additional message.
 ```py
-print("\nWelcome to WhatsUp Messenger!")
+print("\nWelcome to WhatsUDP Messenger!")
 ```
 
-Create object Thread
+Create object Thread with target function `send_message` and argument function `clientSock`.
 ```py
 clientThread = threading.Thread(target=send_message, args=(clientSock,))
+# start threading
 clientThread.start()
 ```
 
-Receive broadcast message from server and print it
+Receive broadcast message from server and print it.
 ```py
 while True:
     data, addr = clientSock.recvfrom(1024)
+    # use decode to convert bytes data type to string data type
     print(data.decode("utf-8"))
 ```
 
